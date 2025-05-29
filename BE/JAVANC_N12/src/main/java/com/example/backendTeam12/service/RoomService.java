@@ -1,0 +1,17 @@
+package com.example.backendTeam12.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.example.backendTeam12.model.Room;
+
+public interface RoomService {
+    Room createRoom(Room room);
+    Room updateRoom(Long id, Room room);
+    void deleteRoom(Long id);
+    Optional <Room> getRoomById(Long id);
+    List<Room> getAllRooms();
+    List<Room> getRoomsByBookingBookingId(Long bookingId);
+    List<Room> getRoomsByHomestayHomestayId(Long bookingId);
+    
+}
