@@ -19,6 +19,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room createRoom(Room room) {
+        room.setStatus(0);
         return roomRepository.save(room);
     }
 

@@ -1,0 +1,12 @@
+//Room
+createRoom:
+    {
+    "roomName": "Deluxe Room",
+    "roomType": 1,
+    "price": 150.00,
+    "status": 1,
+    "homestay": {
+        "homestayId": 1
+    } 
+}
+
