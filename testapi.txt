@@ -10,3 +10,23 @@ createRoom:
     } 
 }
 
+//review
+createReview
+{
+    "rate": 5,
+    "comment": "Great homestay, very clean and comfortable!",
+    "homestay": {
+        "homestayId": 1
+    },
+    "user": {
+        "userId": 1
+    }
+}
+
+/service
+createService:
+{
+  "serviceName": "Wi-Fi",
+  "description": "High-speed internet access",
+  "price": 10.00
+}
