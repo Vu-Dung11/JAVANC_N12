@@ -5,6 +5,9 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Data
 @Entity
 @Table(name = "Rooms")
@@ -32,10 +35,12 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "homestay_id")
+    @JsonBackReference
     private Homestay homestay;
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
+    @JsonBackReference
     private Booking booking;
 
     @PrePersist
