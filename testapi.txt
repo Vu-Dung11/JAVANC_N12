@@ -30,3 +30,31 @@ createService:
   "description": "High-speed internet access",
   "price": 10.00
 }
+
+//homestay
+  "name": "Sunset Homestay",
+  "description": "Cozy homestay with sea view",
+  "ward": "Phuoc My",
+  "district": "Son Tra",
+  "province": "Da Nang",
+  "owner": {
+    "userId": 1
+  }
+
+  //booking
+  create:
+  {
+    {
+    "checkInDate": "2025-06-10T14:00:00",
+    "checkOutDate": "2025-06-15T12:00:00",
+    "depositPrice": 50.00,
+    "totalPrice": 200.00,
+    "status": 1,
+    "user": {
+      "userId": 1
+    }
+  }
+  }
+
+  //daterange
+  endpoint:http://localhost:8080/api/bookings/date-range?startDate=2025-06-01T00:00:00&endDate=2025-06-30T23:59:59

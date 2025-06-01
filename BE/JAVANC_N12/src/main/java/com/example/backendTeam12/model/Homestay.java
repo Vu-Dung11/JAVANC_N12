@@ -1,3 +1,4 @@
+
 package com.example.backendTeam12.model;
 
 import java.time.LocalDateTime;
@@ -19,9 +20,13 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Data
 @Entity
 @Table(name = "Homestays")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "homestayId")
 public class Homestay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
