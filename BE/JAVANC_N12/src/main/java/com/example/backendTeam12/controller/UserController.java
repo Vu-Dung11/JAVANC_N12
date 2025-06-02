@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backendTeam12.model.LoginRequest;
 import com.example.backendTeam12.model.User;
 import com.example.backendTeam12.service.UserService;
 
@@ -69,5 +70,15 @@ public class UserController {
         return userService.getUserByEmail(email)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request){
+        try {
+            userService.loginUser(request.getUsername(), request.getPassword());
+            return ResponseEntity.ok("Đăng nhập thành công");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
     }
 } 

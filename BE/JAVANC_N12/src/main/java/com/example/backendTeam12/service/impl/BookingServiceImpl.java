@@ -1,15 +1,16 @@
 package com.example.backendTeam12.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.backendTeam12.model.Booking;
 import com.example.backendTeam12.model.User;
 import com.example.backendTeam12.repository.BookingRepository;
 import com.example.backendTeam12.repository.UserRepository;
 import com.example.backendTeam12.service.BookingService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class BookingServiceImpl implements BookingService {

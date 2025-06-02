@@ -74,4 +74,22 @@ public class UserServiceImpl implements UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
+    @Override
+    public void loginUser(String username, String password){
+        Optional<User> userLogin = getUserByUserName(username);
+
+        if(userLogin.isEmpty()){
+            throw  new RuntimeException("User not found");
+        }
+
+        User user = userLogin.get();
+
+        if(!password.equalsIgnoreCase(user.getPassword())){
+            throw  new RuntimeException("Password is incorrect");
+        }
+
+        user.setUpdatedAt(LocalDateTime.now());
+        userRepository.save(user);
+    }
 } 

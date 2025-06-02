@@ -15,4 +15,5 @@ public interface UserService {
     List<User> getAllUsers();
     boolean existsByUserName(String username);
     boolean existsByEmail(String email);
+    void loginUser(String username, String password);
 } 
