@@ -9,7 +9,16 @@ createRoom:
         "homestayId": 1
     } 
 }
-
+//user
+{
+    "userName": "testuser",
+  "password": "testpass123",
+  "email": "testuser@example.com",
+  "phoneNumber": "0987654321",
+  "fullName": "Test User",
+  "gender": 1,
+  "avatar": "avatar_test.png"
+}
 //review
 createReview
 {

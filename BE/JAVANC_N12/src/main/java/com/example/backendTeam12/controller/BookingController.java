@@ -1,7 +1,6 @@
 package com.example.backendTeam12.controller;
 
 import com.example.backendTeam12.model.Booking;
-import com.example.backendTeam12.model.Review;
 import com.example.backendTeam12.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

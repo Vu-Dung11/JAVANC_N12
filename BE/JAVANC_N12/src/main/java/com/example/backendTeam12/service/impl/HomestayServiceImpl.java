@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.backendTeam12.model.Homestay;
+import com.example.backendTeam12.model.User;
 import com.example.backendTeam12.repository.HomestayRepository;
+import com.example.backendTeam12.repository.UserRepository;
 import com.example.backendTeam12.service.HomestayService;
 
 @Service
@@ -16,8 +18,19 @@ public class HomestayServiceImpl implements HomestayService {
     @Autowired
     private HomestayRepository homestayRepository;
 
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public Homestay createHomestay(Homestay homestay) {
+        if (homestay == null) {
+            throw new RuntimeException("Homestay không để trống");
+        }
+
+        Long userId = 46L;
+        User owner = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("Mặc định"));
+
+        homestay.setOwner(owner);
         return homestayRepository.save(homestay);
     }
 
@@ -31,6 +44,14 @@ public class HomestayServiceImpl implements HomestayService {
         existingHomestay.setWard(homestay.getWard());
         existingHomestay.setDistrict(homestay.getDistrict());
         existingHomestay.setProvince(homestay.getProvince());
+        
+        if (homestay.getOwner() != null && homestay.getOwner().getUserId() != null) {
+            Long userId = homestay.getOwner().getUserId();
+            User owner = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User with ID " + userId + " not found"));
+            existingHomestay.setOwner(owner);
+        }
+        
         //save
         return homestayRepository.save(existingHomestay);
     }
