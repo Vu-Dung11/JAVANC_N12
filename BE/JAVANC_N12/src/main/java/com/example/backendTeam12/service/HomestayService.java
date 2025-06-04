@@ -1,8 +1,9 @@
 package com.example.backendTeam12.service;
 
-import com.example.backendTeam12.model.Homestay;
 import java.util.List;
 import java.util.Optional;
+
+import com.example.backendTeam12.model.Homestay;
 
 public interface HomestayService {
     Homestay createHomestay(Homestay homestay);
@@ -13,4 +14,5 @@ public interface HomestayService {
     List<Homestay> getHomestaysByOwner(Long userId);
     List<Homestay> searchHomestays(String keyword);
     List<Homestay> getHomestaysByLocation(String province, String district, String ward);
+    List<Homestay> getHomestaysByKeyword(String keyword);
 } 

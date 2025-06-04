@@ -12,6 +12,10 @@ import com.example.backendTeam12.repository.HomestayRepository;
 import com.example.backendTeam12.repository.UserRepository;
 import com.example.backendTeam12.service.HomestayService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+
 @Service
 public class HomestayServiceImpl implements HomestayService {
 
@@ -20,6 +24,9 @@ public class HomestayServiceImpl implements HomestayService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
     @Override
     public Homestay createHomestay(Homestay homestay) {
         if (homestay == null) {
@@ -84,5 +91,22 @@ public class HomestayServiceImpl implements HomestayService {
     @Override
     public List<Homestay> getHomestaysByLocation(String province, String district, String ward) {
         return homestayRepository.findByProvinceAndDistrictAndWard(province, district, ward);
+    }
+
+    @Override
+    public List<Homestay> getHomestaysByKeyword(String keyword) {
+        if (keyword == null || keyword.isEmpty()){
+            return homestayRepository.findAll();
+        }
+        String lowerKeyword = "%" + keyword.toLowerCase() + "%";
+        String jpql = "SELECT h FROM Homestay h WHERE " +
+                      "LOWER(h.name) LIKE :kw OR " +
+                      "LOWER(h.description) LIKE :kw OR " +
+                      "LOWER(h.ward) LIKE :kw OR " +
+                      "LOWER(h.district) LIKE :kw OR " +
+                      "LOWER(h.province) LIKE :kw";
+        TypedQuery<Homestay> query = entityManager.createQuery(jpql, Homestay.class);
+        query.setParameter("kw", lowerKeyword);
+        return query.getResultList();
     }
 } 

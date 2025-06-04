@@ -1,12 +1,22 @@
 package com.example.backendTeam12.controller;
 
-import com.example.backendTeam12.model.Homestay;
-import com.example.backendTeam12.service.HomestayService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.example.backendTeam12.model.Homestay;
+import com.example.backendTeam12.service.HomestayService;
 
 @RestController
 @RequestMapping("/api/homestays")
@@ -64,5 +74,11 @@ public class HomestayController {
             @RequestParam(required = false) String district,
             @RequestParam(required = false) String ward) {
         return ResponseEntity.ok(homestayService.getHomestaysByLocation(province, district, ward));
+    }
+
+    @GetMapping("/search/keyword")
+    public ResponseEntity<List<Homestay>> getHomestaysByKeyword(@RequestParam("keyword") String keyword) {
+        List<Homestay> result = homestayService.getHomestaysByKeyword(keyword);
+        return ResponseEntity.ok(result);
     }
 } 
