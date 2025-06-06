@@ -1,2 +1,0 @@
--	Link ERD: https://www.mermaidchart.com/app/projects/54a5ae1b-495a-4e07-91c9-869fae65bc8c/diagrams/daf646ac-d2bd-4de3-8ec4-6f6270418752/version/v0.1/edit
--	mvn clean spring-boot:run -U
