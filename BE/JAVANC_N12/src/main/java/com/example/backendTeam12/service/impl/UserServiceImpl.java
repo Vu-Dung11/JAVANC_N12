@@ -92,4 +92,8 @@ public class UserServiceImpl implements UserService {
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
     }
+    @Override
+    public List<User> searchUsersByUsername(String search) {
+        return userRepository.findByUserNameContainingIgnoreCase(search);
+    }
 } 

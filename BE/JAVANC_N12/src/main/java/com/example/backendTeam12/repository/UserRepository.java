@@ -1,5 +1,6 @@
 package com.example.backendTeam12.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUserName(String username);
     boolean existsByEmail(String email);
     public Optional<User> findByEmail(String email);
+    List<User> findByUserNameContainingIgnoreCase(String search);
 }

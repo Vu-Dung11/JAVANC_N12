@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.backendTeam12.model.Booking;
 import com.example.backendTeam12.model.User;
 import com.example.backendTeam12.repository.BookingRepository;
+import com.example.backendTeam12.repository.RoomRepository;
 import com.example.backendTeam12.repository.UserRepository;
 import com.example.backendTeam12.service.BookingService;
 
@@ -20,6 +21,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
 
     @Override
     public Booking updateBooking(Long bookingId, Booking booking) {
@@ -57,10 +61,7 @@ public class BookingServiceImpl implements BookingService {
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
             booking.setUser(user);
         }
-        // Gán booking cho rooms (nếu có)
-        if (booking.getRooms() != null) {
-            booking.getRooms().forEach(room -> room.setBooking(booking));
-        }
+        
         return bookingRepository.save(booking);
     }
 

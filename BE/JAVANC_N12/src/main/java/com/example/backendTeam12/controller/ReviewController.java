@@ -71,4 +71,9 @@ public class ReviewController {
     public ResponseEntity<List<Review>> getReviewsByRate(@PathVariable Integer rate) {
         return ResponseEntity.ok(reviewService.getReviewsByRate(rate));
     }
+
+    @GetMapping("/AverageRateHomestay/{homestayId}")
+    public double getHomestayWithAverageRate(@PathVariable Long homestayId){
+        return reviewService.getHomestayWithAverageRate(homestayId);
+    }
 }

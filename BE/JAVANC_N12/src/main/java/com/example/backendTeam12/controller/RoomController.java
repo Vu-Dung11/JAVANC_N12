@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backendTeam12.model.Homestay;
 import com.example.backendTeam12.model.Room;
 import com.example.backendTeam12.service.RoomService;
 
@@ -65,5 +66,10 @@ public class RoomController {
     @GetMapping("/booking/{bookingId}")
     public ResponseEntity<List<Room>> getRoomsByBookingBookingId(@PathVariable Long bookingId) {
         return ResponseEntity.ok(roomService.getRoomsByBookingBookingId(bookingId));
+    }
+
+    @GetMapping("/gethomestay/{roomId}")
+    public ResponseEntity<Homestay> getHomestayByRoomId(@PathVariable Long roomId) {
+        return ResponseEntity.ok(roomService.getHomestayByRoomId(roomId));
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backendTeam12.model.LoginRequest;
@@ -81,4 +82,13 @@ public class UserController {
             return ResponseEntity.status(401).body(e.getMessage());
         }
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<User>> searchUsersByUsername(@RequestParam String search) {
+        if (search == null || search.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        List<User> users = userService.searchUsersByUsername(search);
+        return ResponseEntity.ok(users);
+    }
+
 } 

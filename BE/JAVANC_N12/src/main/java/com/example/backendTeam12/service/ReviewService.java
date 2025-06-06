@@ -14,4 +14,6 @@ public interface ReviewService {
     List<Review> getReviewsByHomestayHomestayId(Long homestayId);
     List<Review> getReviewsByUserUserId(Long userId);
     List<Review> getReviewsByRate(Integer rate);
+
+    double getHomestayWithAverageRate(Long homestayId);
 }

@@ -3,6 +3,7 @@ package com.example.backendTeam12.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.backendTeam12.model.Homestay;
 import com.example.backendTeam12.model.Room;
 
 public interface RoomService {
@@ -13,5 +14,5 @@ public interface RoomService {
     List<Room> getAllRooms();
     List<Room> getRoomsByBookingBookingId(Long bookingId);
     List<Room> getRoomsByHomestayHomestayId(Long bookingId);
-    
+    Homestay getHomestayByRoomId(Long roomId);
 }
