@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.backendTeam12.model.Booking;
+import com.example.backendTeam12.model.Room;
 import com.example.backendTeam12.model.User;
 import com.example.backendTeam12.repository.BookingRepository;
 import com.example.backendTeam12.repository.RoomRepository;
@@ -55,15 +56,30 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking createBooking(Booking booking) {
-        // Kiểm tra user tồn tại
+        // Kiểm tra và gán User
         if (booking.getUser() != null && booking.getUser().getUserId() != null) {
             User user = userRepository.findById(booking.getUser().getUserId())
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
             booking.setUser(user);
         }
-        
-        return bookingRepository.save(booking);
+
+        // Lưu booking trước để có bookingId
+        Booking savedBooking = bookingRepository.save(booking);
+
+        // Gán bookingId vào các Room đã tồn tại
+        if (booking.getRooms() != null && !booking.getRooms().isEmpty()) {
+            for (Room room : booking.getRooms()) {
+                Room existingRoom = roomRepository.findById(room.getRoomId())
+                        .orElseThrow(() -> new RuntimeException("Không tìm thấy phòng với ID: " + room.getRoomId()));
+
+                existingRoom.setBooking(savedBooking);
+                roomRepository.save(existingRoom);
+            }
+        }
+
+        return savedBooking;
     }
+
 
     @Override
     public List<Booking> findBookingsByUserUserId(Long userId) {

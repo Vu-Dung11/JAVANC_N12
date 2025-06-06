@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.backendTeam12.model.Booking;
 import com.example.backendTeam12.model.Homestay;
 import com.example.backendTeam12.model.Room;
+import com.example.backendTeam12.repository.BookingRepository;
 import com.example.backendTeam12.repository.HomestayRepository;
 import com.example.backendTeam12.repository.RoomRepository;
 import com.example.backendTeam12.service.RoomService;
@@ -21,6 +23,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private HomestayRepository homestayRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Override
     public Room createRoom(Room room) {
@@ -46,6 +51,17 @@ public class RoomServiceImpl implements RoomService {
             }
 
         return roomRepository.save(existingRoom);
+    }
+
+    @Override 
+    public Room updateRoomByBookingId(Long bookingId, Long roomId){
+        Room updateRoom = roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
+
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("booking not exist"));
+
+        updateRoom.setBooking(booking);
+
+        return roomRepository.save(updateRoom);
     }
 
     @Override
@@ -81,5 +97,6 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> getRoomsByHomestayHomestayId(Long homestayId) {
         return roomRepository.findByHomestayHomestayId(homestayId);
     }
+
     
 }

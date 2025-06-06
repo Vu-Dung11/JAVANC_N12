@@ -40,6 +40,18 @@ public class RoomController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/bookingId/{bookingId}/roomId/{roomId}")
+    public ResponseEntity<Room> updateRoomByBookingId(@PathVariable Long bookingId, @PathVariable Long roomId){
+        Room updateRoom = roomService.updateRoomByBookingId(bookingId, roomId);
+
+        if (updateRoom != null){
+            return ResponseEntity.ok(updateRoom);
+        }
+
+        return ResponseEntity.notFound().build();
+
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id);

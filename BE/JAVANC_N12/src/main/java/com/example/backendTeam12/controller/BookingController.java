@@ -30,7 +30,8 @@ public class BookingController {
 
     @PostMapping
     public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
-        return ResponseEntity.ok(bookingService.createBooking(booking));
+        Booking createdBooking = bookingService.createBooking(booking);
+        return ResponseEntity.ok(createdBooking);
     }
 
     @PutMapping("/{id}")

@@ -1,8 +1,11 @@
 package com.example.backendTeam12.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,14 +77,20 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request){
+    public ResponseEntity<?> login(@RequestBody LoginRequest request){
         try {
             userService.loginUser(request.getUsername(), request.getPassword());
-            return ResponseEntity.ok("Đăng nhập thành công");
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Đăng nhập thành công");
+            response.put("user", userService.getUserByUserName(request.getUsername()).orElse(null));
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(401).body(e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }
+    
     @GetMapping("/search")
     public ResponseEntity<List<User>> searchUsersByUsername(@RequestParam String search) {
         if (search == null || search.trim().isEmpty()) {

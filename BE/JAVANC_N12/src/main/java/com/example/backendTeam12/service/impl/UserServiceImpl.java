@@ -77,16 +77,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void loginUser(String username, String password){
-        Optional<User> userLogin = getUserByUserName(username);
+         Optional<User> optionalUser = getUserByUserName(username);
+        User user = optionalUser.orElseThrow(() -> new RuntimeException("User not found with username: " + username));
 
-        if(userLogin.isEmpty()){
-            throw  new RuntimeException("User not found");
-        }
-
-        User user = userLogin.get();
-
-        if(!password.equalsIgnoreCase(user.getPassword())){
-            throw  new RuntimeException("Password is incorrect");
+        if (!password.equals(user.getPassword())) {
+            throw new RuntimeException("Password is incorrect");
         }
 
         user.setUpdatedAt(LocalDateTime.now());
