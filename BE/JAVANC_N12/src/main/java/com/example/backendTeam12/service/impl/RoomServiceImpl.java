@@ -14,6 +14,9 @@ import com.example.backendTeam12.repository.HomestayRepository;
 import com.example.backendTeam12.repository.RoomRepository;
 import com.example.backendTeam12.service.RoomService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -26,6 +29,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Room createRoom(Room room) {
@@ -98,5 +104,17 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findByHomestayHomestayId(homestayId);
     }
 
+    @Override
+    public List<Room> getRoomsByKeyword(String keyword) {
+        if (keyword == null || keyword.isEmpty()){
+            return roomRepository.findAll();
+        }
+        String lowerKeyword = "%" + keyword.toLowerCase() + "%";
+        String jpql = "SELECT h FROM Room h WHERE " +
+                      "LOWER(h.roomName) LIKE :kw";
+        TypedQuery<Room> query = entityManager.createQuery(jpql, Room.class);
+        query.setParameter("kw", lowerKeyword);
+        return query.getResultList();
+    }
     
 }

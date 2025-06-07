@@ -16,4 +16,5 @@ public interface RoomService {
     List<Room> getRoomsByHomestayHomestayId(Long bookingId);
     Homestay getHomestayByRoomId(Long roomId);
     Room updateRoomByBookingId(Long bookingId, Long roomId);
+    List<Room> getRoomsByKeyword(String keyword);
 }

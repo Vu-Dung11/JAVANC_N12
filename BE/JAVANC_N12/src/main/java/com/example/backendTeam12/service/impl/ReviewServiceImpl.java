@@ -13,6 +13,10 @@ import com.example.backendTeam12.repository.HomestayRepository;
 import com.example.backendTeam12.repository.ReviewRepository;
 import com.example.backendTeam12.service.ReviewService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
@@ -21,6 +25,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private HomestayRepository homestayRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Review createReview(Review review) {
@@ -63,6 +70,16 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public List<Homestay> getHomestaysByHighRate() {
+        List<Homestay> homestays = reviewRepository.getGHomestaysByHighRate();
+        if (homestays.isEmpty()){
+            homestays = homestayRepository.findAll();
+        }
+        
+        return homestays;
+    }
+
+    @Override
     public void deleteReview(Long id) {
         reviewRepository.deleteById(id);
     }
@@ -91,4 +108,18 @@ public class ReviewServiceImpl implements ReviewService {
     public List<Review> getReviewsByRate(Integer rate) {
         return reviewRepository.findByRate(rate);
     }
+
+    @Override
+    public List<Review> getReviewsByKeyword(String keyword) {
+        if (keyword == null || keyword.isEmpty()){
+            return reviewRepository.findAll();
+        }
+        String lowerKeyword = "%" + keyword.toLowerCase() + "%";
+        String jpql = "SELECT h FROM Review h WHERE " +
+                      "LOWER(h.comment) LIKE :kw";
+        TypedQuery<Review> query = entityManager.createQuery(jpql, Review.class);
+        query.setParameter("kw", lowerKeyword);
+        return query.getResultList();
+    }
+    
 }

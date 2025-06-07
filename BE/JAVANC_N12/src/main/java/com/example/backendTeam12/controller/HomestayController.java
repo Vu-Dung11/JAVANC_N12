@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backendTeam12.dto.HomestaySummaryDTO;
 import com.example.backendTeam12.model.Homestay;
 import com.example.backendTeam12.service.HomestayService;
 
@@ -81,4 +82,16 @@ public class HomestayController {
         List<Homestay> result = homestayService.getHomestaysByKeyword(keyword);
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/summary")
+    public List<HomestaySummaryDTO> getHomestaysBySummary(){
+        return homestayService.getHomestaysBySummary();
+    }
+
+    @GetMapping("/summary/search/keyword")
+    public ResponseEntity<List<HomestaySummaryDTO>> searchByAddress(@RequestParam String keyword) {
+        List<HomestaySummaryDTO> result = homestayService.searchHomestaysByApproximateAddress(keyword);
+        return ResponseEntity.ok(result);
+    }
+
 } 

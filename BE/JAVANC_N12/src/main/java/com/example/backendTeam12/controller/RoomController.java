@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backendTeam12.model.Homestay;
@@ -83,5 +84,11 @@ public class RoomController {
     @GetMapping("/gethomestay/{roomId}")
     public ResponseEntity<Homestay> getHomestayByRoomId(@PathVariable Long roomId) {
         return ResponseEntity.ok(roomService.getHomestayByRoomId(roomId));
+    }
+
+    @GetMapping("/search/keyword")
+    public ResponseEntity<List<Room>> getRoomsByKeyword(@RequestParam("keyword") String keyword) {
+        List<Room> result = roomService.getRoomsByKeyword(keyword);
+        return ResponseEntity.ok(result);
     }
 }

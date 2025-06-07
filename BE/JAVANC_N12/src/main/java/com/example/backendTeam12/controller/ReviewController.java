@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backendTeam12.model.Homestay;
 import com.example.backendTeam12.model.Review;
 import com.example.backendTeam12.service.ReviewService;
 
@@ -76,4 +78,17 @@ public class ReviewController {
     public double getHomestayWithAverageRate(@PathVariable Long homestayId){
         return reviewService.getHomestayWithAverageRate(homestayId);
     }
+
+    @GetMapping("/getHomestayByHighRate")
+    public List<Homestay> getHomestayByHighRate(){
+        return reviewService.getHomestaysByHighRate();
+    }
+
+    @GetMapping("/search/keyword")
+    public ResponseEntity<List<Review>> getReviewsByKeyword(@RequestParam("keyword") String keyword) {
+        List<Review> result = reviewService.getReviewsByKeyword(keyword);
+        return ResponseEntity.ok(result);
+    }
+
+
 }

@@ -1,13 +1,15 @@
 package com.example.backendTeam12.service.impl;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
+
 import com.example.backendTeam12.model.Admin;
 import com.example.backendTeam12.repository.AdminRepository;
 import com.example.backendTeam12.service.AdminService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -42,14 +44,19 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void loginAdmin(String username, String password) {
-        Optional<Admin> adminOptional = adminRepository.findByUsername(username);
-        if (adminOptional.isEmpty()) {
-            throw new RuntimeException("Không tìm thấy admin");
-        }
-        
-        Admin admin = adminOptional.get();
-        if (!password.equalsIgnoreCase(admin.getPassword())) {
-            throw new RuntimeException("Mật khẩu không đúng");
+        try{
+            Optional<Admin> adminOptional = adminRepository.findByUsername(username);
+            if (adminOptional.isEmpty()) {
+                throw new RuntimeException("Không tìm thấy admin");
+            }
+            
+            Admin admin = adminOptional.get();
+            if (!password.equalsIgnoreCase(admin.getPassword())) {
+                throw new RuntimeException("Mật khẩu không đúng");
+            }
+        }catch(DataAccessException e){
+            System.err.println("Lỗi CSDL (DataAccessException): " + e.getMessage());
+            throw new RuntimeException("Lỗi khi truy cập cơ sở dữ liệu");
         }
     }
 }

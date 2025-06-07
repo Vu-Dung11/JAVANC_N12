@@ -66,4 +66,13 @@ createService:
   }
 
   //daterange
-  endpoint:http://localhost:8080/api/bookings/date-range?startDate=2025-06-01T00:00:00&endDate=2025-06-30T23:59:59
+  endpoint:http://localhost:8080/api/bookings/date-range?startDate=2025-06-01T00:00:00&endDate=2025-06-30T23:59:596262
+
+  //lấy ra homestay với 5 thông tin 
+  http://localhost:8080/api/homestays/summary
+
+  // lấy ra hs vs 5 thông tin khi tìm theo địa chỉ
+  http://localhost:8080/api/homestays/summary/search/keyword?keyword= đà nẵng
+
+  // lấy ra homestay có sao đánh giá > 3
+  http://localhost:8080/api/reviews/getHomestayByHighRate
