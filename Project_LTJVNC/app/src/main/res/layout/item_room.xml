@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_blue"
+    android:padding="12dp"
+    android:layout_marginBottom="12dp">
+
+    <ImageView
+        android:id="@+id/imgRoom_Item"
+        android:layout_width="108dp"
+        android:layout_height="91dp"
+        android:layout_gravity="center_vertical"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image_1" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingStart="12dp"
+        android:background="@color/light_blue">
+
+        <TextView
+            android:id="@+id/txtRoomId_Item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mã phòng: R001"
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:layout_marginBottom="2dp" />
+
+        <TextView
+            android:id="@+id/txtRoomName_Item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên phòng: Phòng Deluxe"
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:layout_marginBottom="2dp" />
+
+        <TextView
+            android:id="@+id/txtRoomType_Item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loại phòng: Đơn"
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:layout_marginBottom="2dp" />
+
+        <TextView
+            android:id="@+id/txtRoomPrice_Item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá phòng: 500.000 VNĐ"
+            android:textSize="14sp"
+            android:textColor="#000" />
+    </LinearLayout>
+</LinearLayout>
