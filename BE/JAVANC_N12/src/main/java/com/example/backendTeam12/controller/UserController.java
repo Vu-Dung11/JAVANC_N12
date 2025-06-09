@@ -100,4 +100,9 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/percentNewUser")
+    public int percentNewUser() {
+       return userService.percentNewUser();
+    }
+
 } 

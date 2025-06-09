@@ -1,5 +1,6 @@
 package com.example.backendTeam12.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -90,5 +91,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> searchUsersByUsername(String search) {
         return userRepository.findByUserNameContainingIgnoreCase(search);
+    }
+
+    @Override
+    public int percentNewUser(){
+        LocalDate  now = LocalDate.now();
+        int month = now.getMonthValue();
+        int year = now.getYear();
+
+        long totalUsers = userRepository.countAllUser();
+        if (totalUsers == 0){
+            return 0;
+        }
+
+        long newUsers = userRepository.countAllUserCreatedAtMonth(month, year);
+        if(newUsers == 0){
+            return 0;
+        }
+
+        int percent = (int) (((double)newUsers / totalUsers) * 100);
+       
+        return  percent;
     }
 } 

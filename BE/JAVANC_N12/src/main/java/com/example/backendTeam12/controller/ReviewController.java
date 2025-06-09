@@ -90,5 +90,13 @@ public class ReviewController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/percentGoodHomestay")
+    public int percentGoodHomestay(){
+        return reviewService.percentGoodHomestay();
+    }
 
+    @GetMapping("/percentNotGoodHomestay")
+    public int percentNotGoodHomestay(){
+        return reviewService.percentNotGoodHomestay();
+    }
 }

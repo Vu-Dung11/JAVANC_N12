@@ -19,4 +19,7 @@ public interface ReviewService {
     double getHomestayWithAverageRate(Long homestayId);
     List<Homestay> getHomestaysByHighRate(); 
     List<Review> getReviewsByKeyword(String keyword);
+
+    int percentGoodHomestay();
+    int percentNotGoodHomestay();
 }

@@ -121,5 +121,22 @@ public class ReviewServiceImpl implements ReviewService {
         query.setParameter("kw", lowerKeyword);
         return query.getResultList();
     }
+
+    @Override
+    public int percentGoodHomestay(){
+        long totalReview = reviewRepository.getTotalReviewRate();
+        if (totalReview == 0) return 0;
+
+        long goodReview = reviewRepository.getTotalGoodReviewRate();
+        return (int)(((double) goodReview / totalReview) * 100 );
+    }
     
+    @Override
+    public int percentNotGoodHomestay(){
+        long totalReview = reviewRepository.getTotalReviewRate();
+        if (totalReview == 0) return 0;
+
+        long notGoodReview = totalReview - reviewRepository.getTotalGoodReviewRate();
+        return (int)(((double) notGoodReview / totalReview) * 100 );
+    }
 }

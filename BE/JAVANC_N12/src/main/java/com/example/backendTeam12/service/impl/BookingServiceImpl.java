@@ -2,6 +2,7 @@ package com.example.backendTeam12.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,27 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void deleteBooking(Long id) {
-        bookingRepository.deleteById(id);
+    public boolean deleteBooking(Long bookingId) {
+        Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
+        if (optionalBooking.isEmpty()) {
+            return false;
+        }
+
+        Booking booking = optionalBooking.get();
+
+
+        List<Room> rooms = roomRepository.findByBooking(booking);
+
+        for (Room room : rooms) {
+            room.setBooking(null);
+            room.setStatus(1);
+        }
+        roomRepository.saveAll(rooms);
+
+        booking.setStatus(2);
+        bookingRepository.save(booking);
+
+        return true;
     }
 
      @Override
@@ -53,6 +73,10 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findAll();
     }
 
+    @Override
+    public Optional<Booking> getBookingById(Long id) {
+        return bookingRepository.findById(id);
+    }
 
     @Override
     public Booking createBooking(Booking booking) {
@@ -94,5 +118,14 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> findBookingsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return bookingRepository.findByDateRange(startDate, endDate);
+    }
+
+    @Override
+    public int percentUserPotential(){
+        long totalUsersWithBooking = bookingRepository.countDistinctUsersWithBooking();
+        if (totalUsersWithBooking == 0) return 0;
+
+        int repeatUsers = bookingRepository.findUserIdsWithMoreThanOneBooking().size();
+        return (int) (((double) repeatUsers / totalUsersWithBooking) * 100);
     }
 }

@@ -17,4 +17,7 @@ public interface RoomService {
     Homestay getHomestayByRoomId(Long roomId);
     Room updateRoomByBookingId(Long bookingId, Long roomId);
     List<Room> getRoomsByKeyword(String keyword);
+
+    int percentAvailableRoom();// phòng chưa sử dụng
+    int percentOccupiedRoom();//phòng đang sử dụng
 }

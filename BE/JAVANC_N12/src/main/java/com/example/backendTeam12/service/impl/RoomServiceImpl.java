@@ -117,4 +117,21 @@ public class RoomServiceImpl implements RoomService {
         return query.getResultList();
     }
     
+    @Override
+    public int percentAvailableRoom(){
+        long totalRoom = roomRepository.countTotalRooms();
+        if (totalRoom == 0) return 0;
+
+        long available = roomRepository.countAvailableRooms();
+        return (int) (((double) available / totalRoom) * 100);
+    }
+
+    @Override
+    public int percentOccupiedRoom() {
+        long totalRoom = roomRepository.countTotalRooms();
+        if (totalRoom == 0) return 0;
+
+         long occupiedRoom = roomRepository.countOccupiedRooms();
+        return (int) (((double) occupiedRoom / totalRoom) * 100);
+    }
 }

@@ -91,4 +91,14 @@ public class RoomController {
         List<Room> result = roomService.getRoomsByKeyword(keyword);
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/percentAvailableRoom")
+    public int percentAvailableRoom() {
+        return roomService.percentAvailableRoom();
+    }
+
+    @GetMapping("/occupiedRoom")
+    public int percentOccupiedRoom() {
+        return roomService.percentOccupiedRoom();
+    }
 }

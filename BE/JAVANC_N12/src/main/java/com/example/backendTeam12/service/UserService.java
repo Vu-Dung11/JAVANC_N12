@@ -17,4 +17,6 @@ public interface UserService {
     boolean existsByEmail(String email);
     void loginUser(String username, String password);
     List<User> searchUsersByUsername(String search);
+
+    int percentNewUser();
 } 
