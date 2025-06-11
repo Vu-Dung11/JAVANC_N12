@@ -129,14 +129,15 @@ public class HomestayServiceImpl implements HomestayService {
         // Bổ sung danh sách roomType cho mỗi homestay
         List<HomestaySummaryDTO> result = new ArrayList<>();
         for (HomestaySummaryDTO dto : basicList) {
-            // Bạn sẽ cần cách truy xuất Homestay ID, có thể thêm vào DTO nếu chưa có
+
             Long homestayId = homestayRepository.findIdByName(dto.getName());
+            dto.setHomestayId(homestayId);
             List<Integer> roomTypes = roomRepository.findRoomTypesByHomestayId(
                 homestayId
             );
             double rateHs = reviewService.getHomestayWithAverageRate(homestayId);
 
-            result.add(new HomestaySummaryDTO(dto.getName(), dto.getAddress(), dto.getAveragePrice(), roomTypes, rateHs));
+            result.add(new HomestaySummaryDTO(dto.getHomestayId(),dto.getName(), dto.getAddress(), dto.getAveragePrice(), roomTypes, rateHs));
         }
         return result;
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 public class HomestaySummaryDTO {
+    private Long homestayId;
     private String name;
     private String address;
     private Double averagePrice;
@@ -54,7 +55,8 @@ public class HomestaySummaryDTO {
         this.roomTypeDescription = roomTypeDescription;
     }
 
-    public HomestaySummaryDTO(String name, String address, Double averagePrice, List<Integer> roomTypes, double rateHs) {
+    public HomestaySummaryDTO(Long homestayId, String name, String address, Double averagePrice, List<Integer> roomTypes, double rateHs) {
+        this.homestayId = homestayId;
         this.name = name;
         this.address = address;
         this.averagePrice = averagePrice;
@@ -98,6 +100,14 @@ public class HomestaySummaryDTO {
 
     public void setRateHs(double rateHs) {
         this.rateHs = rateHs;
+    }
+
+    public Long getHomestayId() {
+        return homestayId;
+    }
+
+    public void setHomestayId(Long homestayId) {
+        this.homestayId = homestayId;
     }
 
 }
