@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.backendTeam12.model.Booking;
+import com.example.backendTeam12.model.BookingHistory;
+import com.example.backendTeam12.model.Homestay;
 import com.example.backendTeam12.model.Room;
 import com.example.backendTeam12.model.User;
+import com.example.backendTeam12.repository.BookingHistoryRepository;
 import com.example.backendTeam12.repository.BookingRepository;
 import com.example.backendTeam12.repository.RoomRepository;
 import com.example.backendTeam12.repository.UserRepository;
@@ -26,6 +29,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private BookingHistoryRepository bookingHistoryRepository;
 
     @Override
     public Booking updateBooking(Long bookingId, Booking booking) {
@@ -98,6 +104,22 @@ public class BookingServiceImpl implements BookingService {
 
                 existingRoom.setBooking(savedBooking);
                 roomRepository.save(existingRoom);
+
+                //lưu vào bảng bookinghistory
+                Homestay homestay = existingRoom.getHomestay();
+                String address = homestay.getProvince() +  ", " + homestay.getDistrict() + ", " + homestay.getWard();
+
+                BookingHistory bookingHistory = new BookingHistory();
+
+                bookingHistory.setAddress(address);
+                bookingHistory.setUserId(savedBooking.getUser().getUserId());
+                bookingHistory.setRoomName(existingRoom.getRoomName());
+                bookingHistory.setCheckInDate(savedBooking.getCheckInDate());
+                bookingHistory.setTotalPrice(savedBooking.getTotalPrice());
+                bookingHistory.setDepositPrice(savedBooking.getDepositPrice());
+                bookingHistory.setCreatedAt(LocalDateTime.now());
+
+                bookingHistoryRepository.save(bookingHistory);
             }
         }
 
