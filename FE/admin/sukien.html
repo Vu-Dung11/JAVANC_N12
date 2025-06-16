@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xem Sự Kiện</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f3f3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .calendar-container {
+        width: 800px;
+        background: #59a0eb;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+      }
+
+      .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .calendar-header select {
+        padding: 5px;
+        font-size: 16px;
+      }
+
+      .calendar-days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+      }
+
+      .day-name {
+        font-weight: bold;
+        color: #000000;
+        text-align: center;
+      }
+
+      .day-number {
+        background-color: #f0f0f0;
+        border-radius: 4px;
+        text-align: center;
+        padding: 10px;
+        cursor: default;
+        position: relative;
+      }
+
+      .event {
+        background-color: #007bff;
+        color: #fff;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+
+      .event-list {
+        width: 800px;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .event-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        background: #e9e9e9;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <select id="month-select"></select>
+        <select id="year-select"></select>
+      </div>
+      <div class="calendar-days" id="calendar-days">
+        <div class="day-name">Sun</div>
+        <div class="day-name">Mon</div>
+        <div class="day-name">Tue</div>
+        <div class="day-name">Wed</div>
+        <div class="day-name">Thu</div>
+        <div class="day-name">Fri</div>
+        <div class="day-name">Sat</div>
+      </div>
+    </div>
+
+    <div class="event-list" id="event-list">
+      <h3>Các Sự Kiện</h3>
+      <div id="events"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const monthSelect = document.getElementById("month-select");
+        const yearSelect = document.getElementById("year-select");
+        const calendarDays = document.getElementById("calendar-days");
+        const eventList = document.getElementById("events");
+
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        months.forEach((month, index) => {
+          const option = document.createElement("option");
+          option.value = index;
+          option.textContent = month;
+          monthSelect.appendChild(option);
+        });
+
+        const currentYear = new Date().getFullYear();
+        for (let i = currentYear - 10; i <= currentYear + 10; i++) {
+          const option = document.createElement("option");
+          option.value = i;
+          option.textContent = i;
+          yearSelect.appendChild(option);
+        }
+
+        monthSelect.value = new Date().getMonth();
+        yearSelect.value = currentYear;
+
+        function renderCalendar() {
+          calendarDays.innerHTML = `
+                    <div class="day-name">Sun</div>
+                    <div class="day-name">Mon</div>
+                    <div class="day-name">Tue</div>
+                    <div class="day-name">Wed</div>
+                    <div class="day-name">Thu</div>
+                    <div class="day-name">Fri</div>
+                    <div class="day-name">Sat</div>
+                `;
+
+          const month = parseInt(monthSelect.value);
+          const year = parseInt(yearSelect.value);
+          const firstDay = new Date(year, month, 1).getDay();
+          const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+          for (let i = 0; i < firstDay; i++) {
+            const emptyCell = document.createElement("div");
+            calendarDays.appendChild(emptyCell);
+          }
+
+          const calendarEvents =
+            JSON.parse(localStorage.getItem("calendarEvents")) || [];
+          for (let day = 1; day <= daysInMonth; day++) {
+            const dayCell = document.createElement("div");
+            dayCell.className = "day-number";
+            dayCell.textContent = day;
+
+            const dateStr = `${year}-${String(month + 1).padStart(
+              2,
+              "0"
+            )}-${String(day).padStart(2, "0")}`;
+            const dayEvents = calendarEvents.filter(
+              (event) => event.date === dateStr
+            );
+
+            dayEvents.forEach((event) => {
+              const eventDiv = document.createElement("div");
+              eventDiv.className = "event";
+              eventDiv.textContent = event.name;
+              eventDiv.style.backgroundColor = event.color;
+              dayCell.appendChild(eventDiv);
+            });
+
+            calendarDays.appendChild(dayCell);
+          }
+        }
+
+        function renderEventList() {
+          eventList.innerHTML = "";
+          const calendarEvents =
+            JSON.parse(localStorage.getItem("calendarEvents")) || [];
+          calendarEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+          calendarEvents.forEach((event) => {
+            const eventItem = document.createElement("div");
+            eventItem.className = "event-item";
+            eventItem.textContent = `${event.date}: ${event.name}`;
+            eventList.appendChild(eventItem);
+          });
+        }
+
+        monthSelect.addEventListener("change", () => {
+          renderCalendar();
+          renderEventList();
+        });
+        yearSelect.addEventListener("change", () => {
+          renderCalendar();
+          renderEventList();
+        });
+
+        renderCalendar();
+        renderEventList();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin GoatBooking - Quản Lý Booking</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      body1 {
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        max-height: 100%;
+      }
+      .sidebar {
+        height: 100vh;
+        background-color: #343a40;
+        color: #fff;
+        position: fixed;
+        width: 250px;
+        overflow-y: auto;
+        transition: width 0.3s;
+      }
+      .sidebar.collapsed {
+        width: 0;
+        overflow: hidden;
+      }
+      .sidebar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .sidebar::-webkit-scrollbar-thumb {
+        background-color: #495057;
+        border-radius: 4px;
+      }
+      .sidebar a,
+      .sidebar h2 {
+        color: #fff;
+        text-decoration: none;
+      }
+      .sidebar a:hover {
+        background-color: #495057;
+      }
+      .sidebar .submenu {
+        list-style: none;
+        padding-left: 20px;
+        display: none;
+      }
+      .sidebar .submenu .nav-link {
+        font-size: 14px;
+        padding: 5px 20px;
+        color: #adb5bd;
+      }
+      .sidebar .submenu .nav-link:hover {
+        background-color: #495057;
+      }
+      .sidebar .badge-info {
+        background-color: #17a2b8;
+      }
+      .sidebar .badge-danger {
+        background-color: #dc3545;
+      }
+      .nav-item .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .content {
+        margin-left: 250px;
+        padding: 20px;
+        transition: margin-left 0.3s;
+      }
+      .content.collapsed {
+        margin-left: 0;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 20px;
+        color: #999;
+      }
+    </style>
+    <style>
+      body2 {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f0f4f8;
+      }
+
+      .container {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        padding: 10px 20px;
+        color: #fff;
+        font-size: 2em;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, #007bff, #5bc0de);
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      button {
+        padding: 10px 15px;
+        font-size: 0.9em;
+        margin: 5px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.2s ease;
+        color: rgb(0, 0, 0);
+      }
+
+      .button-add {
+        background-color: #28a745;
+      }
+
+      .button-add:hover {
+        background-color: #218838;
+      }
+
+      .button-edit {
+        background-color: #007bff;
+      }
+
+      .button-edit:hover {
+        background-color: #0056b3;
+      }
+
+      .button-delete {
+        background-color: #dc3545;
+      }
+
+      .button-delete:hover {
+        background-color: #c82333;
+      }
+
+      .button-export {
+        background-color: #6f42c1;
+      }
+
+      .button-export:hover {
+        background-color: #5a32a3;
+      }
+
+      label {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      input[type="date"],
+      select {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 0.95em;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+      }
+
+      th {
+        background: linear-gradient(135deg, #007bff, #5bc0de);
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      th:hover {
+        background: #0056b3;
+        transition: background-color 0.3s ease;
+      }
+
+      .form-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        max-width: 400px;
+        max-height: 700px;
+        padding: 10px;
+        background-color: white;
+        z-index: 1000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        overflow-y: auto;
+      }
+
+      #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+
+      @media (max-width: 768px) {
+        h2 {
+          font-size: 1.5em;
+        }
+
+        table,
+        th,
+        td {
+          font-size: 0.85em;
+        }
+
+        button {
+          padding: 6px 8px;
+          font-size: 0.85em;
+        }
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuItems = document.querySelectorAll(".nav-item");
+        menuItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            const submenu = this.querySelector(".submenu");
+            if (submenu) {
+              submenu.style.display =
+                submenu.style.display === "none" || submenu.style.display === ""
+                  ? "block"
+                  : "none";
+            }
+          });
+        });
+
+        const toggleButton = document.getElementById("sidebarToggle");
+        const sidebar = document.querySelector(".sidebar");
+        const content = document.querySelector(".content");
+        toggleButton.addEventListener("click", function () {
+          sidebar.classList.toggle("collapsed");
+          content.classList.toggle("collapsed");
+        });
+      });
+    </script>
+  </head>
+  <body1>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3 class="text-center mb-4" style="font-size: 40px">
+        Admin <br />GoatBooking
+      </h3>
+      <img
+        src="a1.jpg"
+        alt="Profile"
+        class="rounded-circle mx-auto d-block mb-4"
+        width="100"
+      />
+      <p class="text-center"></p>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="fas fa-tachometer-alt"></i> Trang chủ
+            <i class="fas fa-chevron-down"></i
+          ></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="homestay.html">◯ Homestay</a></li>
+            <li><a class="nav-link" href="room.html">◯ Room</a></li>
+            <li><a class="nav-link" href="user.html">◯ User</a></li>
+            <li>
+              <a class="nav-link" href="service.html">◯ Service</a>
+            </li>
+            <li><a class="nav-link" href="review.html">◯ Review</a></li>
+            <li><a class="nav-link" href="booking_admin.html">◯ Booking</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="tienich.html"
+            ><i class="fas fa-th"></i> Tiện ích
+            <span class="badge badge-danger">New</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="fas fa-chart-bar"></i> Thống kê
+            <i class="fas fa-chevron-down"></i
+          ></a>
+          <ul class="submenu">
+            <li>
+              <a class="nav-link" href="thongke_3.html"
+                >◯ User-Homestay-Rooms</a
+              >
+            </li>
+            <li>
+              <a class="nav-link" href="thongke_2.html">◯ Review - Service</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="fas fa-chart-pie"></i> Biểu đồ
+            <i class="fas fa-chevron-down"></i
+          ></a>
+          <ul class="submenu">
+            <li>
+              <a class="nav-link" href="bieudotron.html">◯ Biểu đồ tròn</a>
+            </li>
+            <li>
+              <a class="nav-link" href="bieudoduong.html">◯ Biểu đồ đường</a>
+            </li>
+            <li>
+              <a class="nav-link" href="bieudocot.html">◯ Biểu đồ cột</a>
+            </li>
+            <li>
+              <a class="nav-link" href="bieudovung.html">◯ Biểu đồ vùng</a>
+            </li>
+          </ul>
+        </li>
+        <!-- Xem thêm -->
+        <li class="nav-item">
+          <span class="nav-link">Xem thêm</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="lich.html"
+            ><i class="fas fa-calendar-alt"></i> Lịch
+            <span class="badge badge-info">2</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="bosuutap.html"
+            ><i class="fas fa-image"></i>Bộ sưu tập<span
+              class="badge badge-info"
+              >99+</span
+            ></a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="fas fa-tools"></i>Hỗ trợ<i
+              class="fas fa-chevron-down"
+            ></i
+          ></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="chat.html">◯ Chat</a></li>
+            <li><a class="nav-link" href="email.html">◯ Mailbox</a></li>
+            <li><a class="nav-link" href="faq.html">◯ FAQ</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="datlai.html" onclick="openResetModal()">
+            <i class="fas fa-sync-alt"></i>Đặt lại<i
+              class="fas fa-chevron-down-o"
+            ></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="fa fa-user-circle"></i> Tài khoản
+            <i class="fas fa-chevron-down-o"></i
+          ></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>Đăng xuất<i
+              class="fas fa-chevron-down-o"
+            ></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <nav class="navbar navbar-expand navbar-light bg-light">
+        <button
+          id="sidebarToggle"
+          class="btn btn-outline-secondary mr-2"
+          title="Toggle Sidebar"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <a class="navbar-brand" href="#">Home</a>
+        <a class="navbar-brand" href="#">Contact</a>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#"
+              ><i class="fas fa-comments"></i
+              ><span class="badge badge-danger">3</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"
+              ><i class="fas fa-bell"></i
+              ><span class="badge badge-warning">15</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-th-large"></i></a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="container mt-4">
+        <body>
+          <h2>Quản Lý Booking</h2>
+
+          <button
+            class="button button-add"
+            onclick="showAddForm()"
+            style="color: rgb(255, 255, 255)"
+          >
+            Thêm
+          </button>
+          <button
+            class="button button-export"
+            onclick="exportBookingData()"
+            style="color: rgb(255, 255, 255)"
+          >
+            Xuất dữ liệu
+          </button>
+
+          <!-- Dropdown for sorting -->
+          <p></p>
+          <label for="sortOptions">Sắp xếp theo:</label>
+          <select id="sortOptions" onchange="sortTable()">
+            <option value="bookingId">Booking Id</option>
+            <option value="userId">User ID</option>
+            <option value="checkInDate">Ngày Check-in</option>
+            <option value="checkOutDate">Ngày Check-out</option>
+            <option value="status">Trạng Thái</option>
+          </select>
+
+          <table id="bookingTable">
+            <thead>
+              <tr>
+                <th>Booking Id</th>
+                <th>User Id</th>
+                <th>Check-in Date</th>
+                <th>Check-out Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Dữ liệu được thêm vào đây -->
+            </tbody>
+          </table>
+
+          <!-- Form for Adding a New Booking -->
+          <div id="overlay"></div>
+          <div class="form-popup" id="addForm">
+            <h3>Thêm Booking Mới</h3>
+
+            <label for="addUserId">User ID</label>
+            <input type="number" id="addUserId" placeholder="Nhập User ID" />
+
+            <label for="addCheckInDate">Check-in Date</label>
+            <input type="date" id="addCheckInDate" />
+
+            <label for="addCheckOutDate">Check-out Date</label>
+            <input type="date" id="addCheckOutDate" />
+
+            <label for="addStatus">Status (0: Pending, 1: Confirmed, 2: Cancelled)</label>
+            <input type="number" id="addStatus" placeholder="0, 1, hoặc 2" />
+
+            <label for="addDepositPrice">Deposit Price</label>
+            <input type="number" id="addDepositPrice" placeholder="Nhập giá trả trước" step="1" />
+
+            <label for="addTotalPrice">Total Price</label>
+            <input type="number" id="addTotalPrice" placeholder="Nhập tổng giá" step="1" />
+
+            <!-- Chọn nhiều phòng -->
+            <label for="addRoomIds">Chọn phòng</label>
+            <select id="addRoomIds" multiple size="5">
+              <!-- Các option phòng sẽ được thêm tự động bằng JS -->
+            </select>
+
+            <button onclick="addBooking()">Thêm</button>
+            <button onclick="hideAddForm()">Đóng</button>
+          </div>
+
+
+          <!-- Form for Editing a Booking -->
+          <div id="overlay1"></div>
+          <div class="form-popup" id="editForm">
+            <h3>Chỉnh Sửa Booking</h3>
+            <label for="editId">ID</label>
+            <input type="text" id="editId" readonly />
+
+            <label for="editCheckInDate">Check-in Date</label>
+            <input type="date" id="editCheckInDate" />
+
+            <label for="editCheckOutDate">Check-out Date</label>
+            <input type="date" id="editCheckOutDate" />
+
+            <label for="editStatus">Status (0: Pending, 1: Confirmed, 2: Cancelled)</label>
+            <input type="number" id="editStatus" />
+
+            <label for="editTotalPrice">Total Price</label>
+            <input type="number" id="editTotalPrice" step="0.01" />
+
+             <label for="editDepositPrice">Deposit Price</label>
+            <input type="number" id="editDepositPrice" placeholder="Nhập giá trả trước" step="1" />
+
+
+            <button onclick="saveEdit()">Lưu</button>
+            <button onclick="hideEditForm()">Đóng</button>
+          </div>
+
+          <script>
+            const apiUrl = "http://localhost:8080/api/bookings";
+
+            function goBack() {
+              window.location.href = "admin.html";
+            }
+
+            async function loadRoomOptions() {
+              const roomSelect = document.getElementById("addRoomIds");
+              try {
+                const response = await fetch("http://localhost:8080/api/rooms"); // Đổi URL nếu cần
+                const rooms = await response.json();
+
+                rooms.forEach(room => {
+                  const option = document.createElement("option");
+                  option.value = room.roomId;
+                  option.textContent = room.roomName;
+                  roomSelect.appendChild(option);
+                });
+              } catch (error) {
+                console.error("Lỗi khi load danh sách phòng:", error);
+              }
+            }
+            // Hiển thị dữ liệu Bookings
+            async function fetchBookings() {
+              try {
+                const response = await fetch(apiUrl);
+                if (!response.ok)
+                  throw new Error(`HTTP error! status: ${response.status}`);
+
+                const data = await response.json();
+                const tableBody = document.getElementById("bookingTable").querySelector("tbody");
+                tableBody.innerHTML = "";
+
+                data.forEach((booking) => {
+                  const statusText = booking.status === 0
+                    ? "Pending"
+                    : booking.status === 1
+                    ? "Confirmed"
+                    : "Cancelled";
+
+                  const row = document.createElement("tr");
+                  row.innerHTML = `
+                    <td>${booking.bookingId}</td>
+                    <td>${booking.user?.userId || ""}</td>
+                    <td>${booking.checkInDate ? new Date(booking.checkInDate).toLocaleDateString() : ""}</td>
+                    <td>${booking.checkOutDate ? new Date(booking.checkOutDate).toLocaleDateString() : ""}</td>
+                    <td>${statusText}</td>
+                    <td>${booking.totalPrice != null ? booking.totalPrice : ""}</td>
+                    <td>${booking.createdAt ? new Date(booking.createdAt).toLocaleString() : ""}</td>
+                    <td>${booking.updatedAt ? new Date(booking.updatedAt).toLocaleString() : ""}</td>
+                    <td>
+                      <button class="button-edit" onclick="showEditForm(${booking.bookingId})">Sửa</button>
+                      <button class="button-delete" onclick="deleteBooking(${booking.bookingId})">Xóa</button>
+                    </td>
+                  `;
+                  tableBody.appendChild(row);
+                });
+              } catch (error) {
+                console.error("Lỗi khi lấy dữ liệu từ API:", error);
+              }
+            }
+
+
+            // Xuất dữ liệu Booking
+           function exportBookingData() {
+              const today = new Date();
+              const formattedDate = today.toLocaleDateString("vi-VN");
+
+              let csv = `﻿Quản lý Booking - ${formattedDate}\n`;
+              csv += `"Booking ID","User ID","Check-in Date","Check-out Date","Status","Total Price","Created At","Updated At"\n`;
+
+              const rows = document.querySelectorAll("#bookingTable tbody tr");
+
+              if (rows.length === 0) {
+                alert("Không có dữ liệu để xuất!");
+                return;
+              }
+
+              rows.forEach(row => {
+                const cells = Array.from(row.children);
+                if (cells.length < 8) return; // Không đủ cột, bỏ qua
+
+                const bookingId = cells[0]?.innerText || "";
+                const userId = cells[1]?.innerText || "";
+                const checkInDate = cells[2]?.innerText || "";
+                const checkOutDate = cells[3]?.innerText || "";
+                const statusText = cells[4]?.innerText?.trim() || "";
+                const totalPrice = cells[5]?.innerText || "";
+                const createdAt = cells[6]?.innerText || "";
+                const updatedAt = cells[7]?.innerText || "";
+
+                // Mapping trạng thái về số nguyên nếu cần
+                let status = 0;
+                if (statusText.toLowerCase() === "confirmed") status = 1;
+                else if (statusText.toLowerCase() === "cancelled") status = -1;
+                else if (statusText.toLowerCase() === "pending") status = 0;
+
+                const rowData = [
+                  bookingId,
+                  userId,
+                  checkInDate,
+                  checkOutDate,
+                  status,
+                  totalPrice,
+                  createdAt,
+                  updatedAt
+                ].map(value => `"${String(value).replace(/"/g, '""')}"`).join(",");
+
+                csv += rowData + "\n";
+              });
+
+              // Tạo file và trigger tải về
+              const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = "bookings.csv";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              URL.revokeObjectURL(url);
+            }
+
+
+
+
+            // Sắp xếp
+              let sortDirection = {};
+            function sortTable() {
+              const table = document.getElementById("bookingTable");
+              const rows = Array.from(table.querySelector("tbody").rows);
+              const sortBy = document.getElementById("sortOptions").value;
+
+              // Đảo chiều sắp xếp nếu cùng cột được chọn lại
+              sortDirection[sortBy] = !sortDirection[sortBy]; // true: ascending, false: descending
+
+              rows.sort((a, b) => {
+                let valueA, valueB;
+
+                switch (sortBy) {
+                  case "bookingId":
+                    valueA = parseInt(a.cells[0].innerText) || 0;
+                    valueB = parseInt(b.cells[0].innerText) || 0;
+                    break;
+                  case "userId":
+                    valueA = parseInt(a.cells[1].innerText) || 0;
+                    valueB = parseInt(b.cells[1].innerText) || 0;
+                    break;
+                  case "checkInDate":
+                    valueA = new Date(a.cells[2].innerText);
+                    valueB = new Date(b.cells[2].innerText);
+                    break;
+                  case "checkOutDate":
+                    valueA = new Date(a.cells[3].innerText);
+                    valueB = new Date(b.cells[3].innerText);
+                    break;
+                  case "status":
+                    valueA = a.cells[4].innerText;
+                    valueB = b.cells[4].innerText;
+                    break;
+                  default:
+                    return 0;
+                }
+
+                // So sánh giá trị
+                if (sortBy === "checkInDate" || sortBy === "checkOutDate") {
+                  return sortDirection[sortBy] ? valueA - valueB : valueB - valueA;
+                } else if (sortBy === "status") {
+                  return sortDirection[sortBy]
+                    ? valueA.localeCompare(valueB)
+                    : valueB.localeCompare(valueA);
+                } else {
+                  return sortDirection[sortBy] ? valueA - valueB : valueB - valueA;
+                }
+              });
+
+              // Cập nhật bảng
+              const tbody = table.querySelector("tbody");
+              tbody.innerHTML = "";
+              rows.forEach((row) => tbody.appendChild(row));
+            }
+            // Tìm kiếm Booking
+            async function searchBookings() {
+              const searchInput = document.getElementById("searchInput").value;
+              try {
+                const response = await fetch(
+                  `${apiUrl}/search?search=${encodeURIComponent(searchInput)}`
+                );
+
+                if (!response.ok) {
+                  console.error("Lỗi khi tìm kiếm Bookings:", response.statusText);
+                  alert("Lỗi khi tìm kiếm: Không hợp lệ!");
+                  return;
+                }
+
+                const bookings = await response.json();
+                const tableBody = document
+                  .getElementById("bookingTable")
+                  .querySelector("tbody");
+                tableBody.innerHTML = "";
+
+                if (bookings.length === 0) {
+                  const row = document.createElement("tr");
+                  row.innerHTML = `<td colspan="11">Không tìm thấy booking nào.</td>`;
+                  tableBody.appendChild(row);
+                  return;
+                }
+
+                bookings.forEach((booking) => {
+                  const statusText = booking.status === 0 ? "Pending" : booking.status === 1 ? "Confirmed" : "Cancelled";
+                  const row = document.createElement("tr");
+                  row.innerHTML = `
+                    <td>${booking.id}</td>
+                    <td>${booking.userId}</td>
+                    <td>${booking.homestayId}</td>
+                    <td>${booking.roomId}</td>
+                    <td>${new Date(booking.checkInDate).toLocaleDateString()}</td>
+                    <td>${new Date(booking.checkOutDate).toLocaleDateString()}</td>
+                    <td>${statusText}</td>
+                    <td>${booking.totalPrice}</td>
+                    <td>${new Date(booking.createdAt).toLocaleString()}</td>
+                    <td>${new Date(booking.updatedAt).toLocaleString()}</td>
+                    <td>
+                      <button class="button-edit" onclick="showEditForm(${booking.id})">Sửa</button>
+                      <button class="button-delete" onclick="deleteBooking(${booking.id})">Xóa</button>
+                    </td>
+                  `;
+                  tableBody.appendChild(row);
+                });
+              } catch (error) {
+                console.error("Lỗi khi tìm kiếm bookings:", error);
+                alert("Không thể kết nối đến API.");
+              }
+            }
+
+            function showAddForm() {
+              document.getElementById("addForm").style.display = "block";
+              document.getElementById("overlay").style.display = "block";
+              fetchBookings();
+              loadRoomOptions();
+            }
+
+            function hideAddForm() {
+              document.getElementById("addForm").style.display = "none";
+              document.getElementById("overlay").style.display = "none";
+            }
+
+            function hideEditForm() {
+              document.getElementById("editForm").style.display = "none";
+              document.getElementById("overlay1").style.display = "none";
+            }
+
+            // Xóa Booking
+            async function deleteBooking(id) {
+              if (confirm("Bạn có chắc chắn muốn xóa booking này không?")) {
+                try {
+                  const response = await fetch(`${apiUrl}/${id}`, {
+                    method: "DELETE",
+                  });
+                  if (response.ok) {
+                    alert("Booking đã được xóa thành công!");
+                    fetchBookings();
+                  } else {
+                    const errorData = await response.json();
+                    alert("Lỗi khi xóa Booking: " + errorData.message);
+                  }
+                } catch (error) {
+                  console.error("Lỗi khi xóa booking:", error);
+                  alert("Không thể kết nối đến API.");
+                }
+              }
+            }
+
+            // Thêm Booking
+            async function addBooking() {
+              const userId = parseInt(document.getElementById("addUserId").value);
+              const checkInDate = document.getElementById("addCheckInDate").value;
+              const checkOutDate = document.getElementById("addCheckOutDate").value;
+              const status = parseInt(document.getElementById("addStatus").value);
+              const depositPrice = parseFloat(document.getElementById("addDepositPrice").value);
+              const totalPrice = parseFloat(document.getElementById("addTotalPrice").value);
+              const roomSelect = document.getElementById("addRoomIds");
+
+              // Lấy danh sách phòng đã chọn
+              const selectedRooms = Array.from(roomSelect.selectedOptions).map(opt => ({
+                roomId: parseInt(opt.value)
+              }));
+
+              // Kiểm tra dữ liệu bắt buộc
+              if (
+                !userId ||
+                !checkInDate ||
+                !checkOutDate ||
+                isNaN(status) ||
+                isNaN(depositPrice) ||
+                isNaN(totalPrice) ||
+                selectedRooms.length === 0
+              ) {
+                alert("Vui lòng điền đầy đủ và chính xác thông tin đặt phòng.");
+                return;
+              }
+
+              // Tạo đối tượng Booking đúng định dạng backend
+              const booking = {
+                checkInDate: checkInDate + "T12:00:00",
+                checkOutDate: checkOutDate + "T12:00:00",
+                depositPrice: depositPrice,
+                totalPrice: totalPrice,
+                status: status,
+                user: { userId: userId },
+                rooms: selectedRooms
+              };
+
+              try {
+                const response = await fetch("http://localhost:8080/api/bookings", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(booking)
+                });
+
+                if (response.ok) {
+                  const data = await response.json();
+                  alert("Đặt phòng thành công!");
+                  fetchBookings(); // Cập nhật lại danh sách nếu có
+                  hideAddForm();
+                } else {
+                  const errorData = await response.json();
+                  alert("Lỗi khi thêm booking: " + (errorData.message || response.statusText));
+                }
+              } catch (error) {
+                console.error("Lỗi gửi booking:", error);
+                alert("Đã xảy ra lỗi khi gửi yêu cầu.");
+              }
+            }
+
+
+
+            // Sửa Booking
+            async function showEditForm(id) {
+              try {
+                const response = await fetch(`${apiUrl}/${id}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                const booking = await response.json();
+
+                document.getElementById("editId").value = booking.bookingId || booking.id;
+
+                // Format ngày theo chuẩn yyyy-MM-dd để gán vào input[type="date"]
+                const checkIn = new Date(booking.checkInDate).toISOString().split("T")[0];
+                const checkOut = new Date(booking.checkOutDate).toISOString().split("T")[0];
+
+                document.getElementById("editCheckInDate").value = checkIn;
+                document.getElementById("editCheckOutDate").value = checkOut;
+                document.getElementById("editStatus").value = booking.status;
+                document.getElementById("editTotalPrice").value = booking.totalPrice;
+                document.getElementById("editDepositPrice").value = booking.depositPrice;
+
+                // Hiển thị form
+                document.getElementById("editForm").style.display = "block";
+                document.getElementById("overlay1").style.display = "block";
+              } catch (error) {
+                console.error("Lỗi khi lấy dữ liệu booking:", error);
+                alert("Không thể lấy dữ liệu booking để chỉnh sửa.");
+              }
+            }
+
+
+            // Lưu chỉnh sửa
+            async function saveEdit() {
+              const id = document.getElementById("editId").value;
+
+              const checkInDate = document.getElementById("editCheckInDate").value;
+              const checkOutDate = document.getElementById("editCheckOutDate").value;
+              const status = parseInt(document.getElementById("editStatus").value);
+              const totalPrice = parseFloat(document.getElementById("editTotalPrice").value);
+              const depositPrice = parseFloat(document.getElementById("editDepositPrice").value);
+
+              if (!checkInDate || !checkOutDate || isNaN(status) || isNaN(totalPrice) || isNaN(depositPrice)) {
+                alert("Vui lòng điền đầy đủ và hợp lệ các thông tin.");
+                return;
+              }
+
+              const booking = {
+                checkInDate: new Date(checkInDate + "T14:00:00"),
+                checkOutDate: new Date(checkOutDate + "T12:00:00"),
+                status: status,
+                totalPrice: totalPrice,
+                depositPrice: depositPrice
+              };
+
+              try {
+                const response = await fetch(`${apiUrl}/${id}`, {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(booking),
+                });
+
+                if (response.ok) {
+                  alert("Booking đã được cập nhật thành công!");
+                  hideEditForm();
+                  fetchBookings();
+                } else {
+                  const errorData = await response.json();
+                  alert("Lỗi khi cập nhật Booking: " + (errorData.message || "Unknown error"));
+                }
+              } catch (error) {
+                console.error("Lỗi khi cập nhật Booking:", error);
+                alert("Không thể kết nối đến API.");
+              }
+            }
+
+
+
+            document.addEventListener("DOMContentLoaded", fetchBookings);
+
+          </script>
+        </body>
+      </div>
+
+      <div class="footer">
+        <p>Copyright © 2014-2021 AdminLTE.io. All rights reserved.</p>
+        <p>Version 3.2.0-rc</p>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      function logout() {
+        window.location.href = "dangnhap.html";
+      }
+    </script>
+  </body1>
+</html>

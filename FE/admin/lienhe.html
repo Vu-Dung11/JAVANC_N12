@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liên Hệ</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-image: url("https://cdn-gcs.ngxson.com/voge/2020/03/Screen-Shot-2020-03-05-at-15.37.54.png"); /* Đường dẫn đến ảnh */
+        background-size: cover; /* Đảm bảo ảnh phủ đầy màn hình */
+        background-repeat: no-repeat; /* Không lặp lại ảnh */
+        background-position: center; /* Căn giữa ảnh */
+        font-family: "Roboto", sans-serif;
+        background-color: #ffffff;
+        padding: 20px;
+      }
+
+      .contact-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        color: #003580;
+        margin-bottom: 20px;
+      }
+
+      p {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #555;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 16px;
+      }
+
+      textarea {
+        resize: vertical;
+        height: 120px;
+      }
+
+      .submit-btn {
+        background-color: #003580;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 3px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        text-transform: uppercase;
+      }
+
+      .submit-btn:hover {
+        background-color: #003580;
+      }
+    </style>
+    <style>
+      .faq-section {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .faq-section h2 {
+        font-size: 24px;
+        color: #333333;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .faq-item {
+        margin-bottom: 15px;
+        position: relative;
+      }
+
+      .faq-question {
+        width: 100%;
+        padding: 15px;
+        background-color: #17a2b8;
+        color: #ffffff;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        text-align: left;
+        cursor: pointer;
+        outline: none;
+        transition: background-color 0.3s;
+      }
+
+      .faq-question:hover {
+        background-color: #138496;
+      }
+
+      .faq-answer {
+        display: none;
+        padding: 15px;
+        font-size: 16px;
+        color: #333333;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contact-container">
+      <h2>Liên hệ với chúng tôi</h2>
+      <p>
+        Chúng tôi mong muốn lắng nghe ý kiến của quý khách. Vui lòng gửi mọi yêu
+        cầu, thắc mắc theo thông tin bên dưới, chúng tôi sẽ liên lạc với bạn sớm
+        nhất có thể.
+      </p>
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="name">Tên tài khoản</label>
+          <input
+            type="text"
+            id="name"
+            placeholder="Nhập tên tài khoản"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Nhập địa chỉ Email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="message">Nội dung</label>
+          <textarea
+            id="message"
+            placeholder="Nội dung liên hệ"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Gửi tin nhắn</button>
+        <p id="successMessage" style="display: none; color: green">
+          Đã gửi phản hồi thành công!
+        </p>
+      </form>
+    </div>
+    <div id="faqContainer" class="faq-section">
+      <h2 style="font-size: 30px">Câu hỏi thường gặp</h2>
+    </div>
+
+    <script>
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Thu thập dữ liệu từ biểu mẫu
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+          const message = document.getElementById("message").value;
+
+          // Lưu dữ liệu vào localStorage
+          localStorage.setItem(
+            "contactData",
+            JSON.stringify({ name, email, message })
+          );
+
+          // Hiển thị thông báo thành công
+          const successMessage = document.getElementById("successMessage");
+          successMessage.style.display = "block";
+        });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const faqs = JSON.parse(localStorage.getItem("faqs")) || [];
+        const faqContainer = document.getElementById("faqContainer");
+
+        if (faqs.length > 0) {
+          faqs.forEach((faq) => {
+            const faqItem = document.createElement("div");
+            faqItem.className = "faq-item";
+
+            const questionButton = document.createElement("button");
+            questionButton.className = "faq-question";
+            questionButton.textContent = faq.question;
+
+            const answerDiv = document.createElement("div");
+            answerDiv.className = "faq-answer";
+            answerDiv.innerHTML = `<p>${faq.answer}</p>`;
+
+            questionButton.onclick = function () {
+              answerDiv.style.display =
+                answerDiv.style.display === "block" ? "none" : "block";
+            };
+
+            faqItem.appendChild(questionButton);
+            faqItem.appendChild(answerDiv);
+            faqContainer.appendChild(faqItem);
+          });
+        } else {
+          faqContainer.innerHTML += "<p></p>";
+        }
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Lấy container cho FAQ
+        const faqContainer = document.getElementById("faqContainer");
+
+        // Dữ liệu các câu hỏi và câu trả lời
+        const faqs = [
+          {
+            question: "Làm thế nào để hủy đặt phòng?",
+            answer:
+              "Bạn có thể hủy đặt phòng bằng cách truy cập vào trang Đặt Phòng của mình, chọn đặt phòng muốn hủy và nhấp vào nút 'Hủy'. Lưu ý rằng chính sách hủy có thể khác nhau tùy vào từng homestay.",
+          },
+          {
+            question: "Khi nào tôi sẽ được hoàn tiền sau khi hủy đặt phòng?",
+            answer:
+              "Thời gian hoàn tiền sẽ phụ thuộc vào phương thức thanh toán và chính sách hoàn tiền của homestay. Thông thường, bạn sẽ nhận được tiền hoàn lại trong vòng 5-7 ngày làm việc.",
+          },
+          {
+            question:
+              "Tôi có thể thay đổi ngày lưu trú sau khi đã đặt phòng không?",
+            answer:
+              "Có, bạn có thể thay đổi ngày lưu trú tùy thuộc vào tình trạng phòng trống của homestay. Hãy liên hệ với chúng tôi hoặc homestay để kiểm tra khả năng thay đổi ngày lưu trú.",
+          },
+          {
+            question: "Phương thức thanh toán nào được hỗ trợ?",
+            answer:
+              "Chúng tôi hỗ trợ nhiều phương thức thanh toán bao gồm thẻ tín dụng, thẻ ghi nợ và các ví điện tử phổ biến như Momo, ZaloPay.",
+          },
+          {
+            question: "Làm thế nào để nhận hóa đơn thanh toán?",
+            answer:
+              "Sau khi hoàn tất thanh toán, bạn có thể tải hóa đơn trực tiếp từ email xác nhận hoặc từ trang quản lý đặt phòng của mình.",
+          },
+        ];
+
+        // Tạo từng câu hỏi FAQ và thêm vào container
+        faqs.forEach((faq) => {
+          const faqItem = document.createElement("div");
+          faqItem.className = "faq-item";
+
+          const questionButton = document.createElement("button");
+          questionButton.className = "faq-question";
+          questionButton.textContent = faq.question;
+
+          const answerDiv = document.createElement("div");
+          answerDiv.className = "faq-answer";
+          answerDiv.style.display = "none";
+          answerDiv.innerHTML = `<p>${faq.answer}</p>`;
+
+          // Thêm sự kiện click để hiển thị/ẩn câu trả lời
+          questionButton.addEventListener("click", function () {
+            answerDiv.style.display =
+              answerDiv.style.display === "block" ? "none" : "block";
+          });
+
+          faqItem.appendChild(questionButton);
+          faqItem.appendChild(answerDiv);
+          faqContainer.appendChild(faqItem);
+        });
+      });
+    </script>
+  </body>
+</html>

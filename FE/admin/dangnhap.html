@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .login-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+      }
+
+      .login-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .login-container input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      .login-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #0071c2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .login-container button:hover {
+        background-color: #005fa3;
+      }
+
+      .login-container p {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .login-container a {
+        color: #0071c2;
+        text-decoration: none;
+      }
+
+      .login-container a:hover {
+        text-decoration: underline;
+      }
+
+      .forgot-password {
+        display: block;
+        text-align: right;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+      /* Video background styling */
+      #video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Video Background -->
+    <video id="video-background" autoplay loop muted>
+      <source src="INTRO_VIDEO.mp4" type="video/mp4" />
+      Trình duyệt của bạn không hỗ trợ video.
+    </video>
+    <div class="login-container">
+      <h2>Đăng nhập</h2>
+      <form onsubmit="validateLogin(event)">
+        <input
+          id="DangNhapUserName"
+          type="text"
+          name="username"
+          placeholder="Tài khoản"
+          required
+          style="width: 94%"
+        />
+        <input
+          id="DangNhapPassWord"
+          type="password"
+          name="password"
+          placeholder="Mật khẩu"
+          required
+          style="width: 94%"
+        />
+        <a class="forgot-password" href="quenmk.html">Quên mật khẩu?</a>
+        <button type="submit">Đăng nhập</button>
+      </form>
+    </div>
+    <script>
+    const apiLoginAdmin = "http://localhost:8080/api/admins/login";
+    async  function validateLogin(event) {
+
+      event.preventDefault()
+      const username = document.querySelector('input[name="username"]').value.trim();
+      const password = document.querySelector('input[name="password"]').value.trim();
+      
+      try {
+        const loginAdminResponse = await fetch(apiLoginAdmin, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({username, password}),
+        });
+
+        if (loginAdminResponse.ok){
+          alert("Đăng nhập thành công quyền Admin");
+          window.location.href = "admin.html";
+          return
+        }
+      }catch{
+        console.error("Lỗi khi gọi API admin:", error);
+      }
+ 
+      }
+    </script>
+  </body>
+</html>

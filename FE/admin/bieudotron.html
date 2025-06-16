@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin GoatBooking - Biểu đồ tròn</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+      }
+      .sidebar {
+        height: 100vh;
+        background-color: #343a40;
+        color: #fff;
+        position: fixed;
+        width: 250px;
+        overflow-y: auto;
+      }
+      .sidebar a,
+      .sidebar h2 {
+        color: #fff;
+        text-decoration: none;
+      }
+      .sidebar a:hover {
+        background-color: #495057;
+      }
+      .sidebar .submenu {
+        list-style: none;
+        padding-left: 20px;
+        display: none;
+      }
+      .sidebar .submenu .nav-link {
+        font-size: 14px;
+        padding: 5px 20px;
+        color: #adb5bd;
+      }
+      .nav-item .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav-item.open .submenu {
+        display: block;
+      }
+      .content {
+        margin-left: 250px;
+        padding: 20px;
+        height: 100vh;
+        overflow-y: auto;
+      }
+      .charts-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+      .chart {
+        width: 30%;
+        margin-bottom: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <h2 class="text-center mb-4" style="font-size: 40px">Admin <br />GoatBooking</h2>
+      <img src="a1.jpg" alt="Profile" class="rounded-circle mx-auto d-block mb-4" width="100" />
+      <p class="text-center">GoatBooking</p>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="toggleMenu(this)"><i class="fas fa-tachometer-alt"></i> Trang chủ <i class="fas fa-chevron-down"></i></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="homestay.html">◯ Homestay</a></li>
+            <li><a class="nav-link" href="room.html">◯ Room</a></li>
+            <li><a class="nav-link" href="user.html">◯ User</a></li>
+            <li><a class="nav-link" href="service.html">◯ Service</a></li>
+            <li><a class="nav-link" href="review.html">◯ Review</a></li>
+            <li><a class="nav-link" href="booking_admin.html">◯ Booking</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="tienich.html"><i class="fas fa-th"></i> Tiện ích <span class="badge badge-danger">New</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="toggleMenu(this)"><i class="fas fa-chart-bar"></i> Thống kê <i class="fas fa-chevron-down"></i></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="thongke_3.html">◯ User-Homestay-Rooms</a></li>
+            <li><a class="nav-link" href="thongke_2.html">◯ Review - Service</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="toggleMenu(this)"><i class="fas fa-chart-pie"></i> Biểu đồ <i class="fas fa-chevron-down"></i></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="bieudotron.html">◯ Biểu đồ tròn</a></li>
+            <li><a class="nav-link" href="bieudoduong.html">◯ Biểu đồ đường</a></li>
+            <li><a class="nav-link" href="bieudocot.html">◯ Biểu đồ cột</a></li>
+            <li><a class="nav-link" href="bieudovung.html">◯ Biểu đồ vùng</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link">Xem thêm</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="lich.html"><i class="fas fa-calendar-alt"></i> Lịch <span class="badge badge-info">2</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="bosuutap.html"><i class="fas fa-image"></i>Bộ sưu tập<span class="badge badge-info">99+</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="toggleMenu(this)"><i class="fas fa-tools"></i>Hỗ trợ<i class="fas fa-chevron-down"></i></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="chat.html">◯ Chat</a></li>
+            <li><a class="nav-link" href="email.html">◯ Mailbox</a></li>
+            <li><a class="nav-link" href="faq.html">◯ FAQ</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="datlai.html"><i class="fas fa-sync-alt"></i>Đặt lại</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fa fa-user-circle"></i> Tài khoản</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Đăng xuất</a>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1 class="text-center">Thống kê dữ liệu bằng biểu đồ tròn</h1>
+      <div class="charts-container">
+        <div class="chart">
+          <h3>Người dùng</h3>
+          <canvas id="userChart"></canvas>
+        </div>
+        <div class="chart">
+          <h3>Phòng</h3>
+          <canvas id="roomChart"></canvas>
+        </div>
+        <div class="chart">
+          <h3>Homestay</h3>
+          <canvas id="homestayChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleMenu(element) {
+        const parent = element.closest(".nav-item");
+        parent.classList.toggle("open");
+      }
+
+      async function fetchPercent(url) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error("Lỗi kết nối API");
+          return await response.json();
+        } catch (e) {
+          console.error(e);
+          return 0;
+        }
+      }
+
+      async function renderCharts() {
+        const newUser = await fetchPercent("http://localhost:8080/api/users/percentNewUser");
+        const potentialUser = await fetchPercent("http://localhost:8080/api/bookings/percentUserPotential");
+        const returningUser = 100 - newUser - potentialUser;
+
+        const occupiedRoom = await fetchPercent("http://localhost:8080/api/rooms/occupiedRoom");
+        const availableRoom = await fetchPercent("http://localhost:8080/api/rooms/percentAvailableRoom");
+
+        const goodHomestay = await fetchPercent("http://localhost:8080/api/reviews/percentGoodHomestay");
+        const badHomestay = await fetchPercent("http://localhost:8080/api/reviews/percentNotGoodHomestay");
+        const otherHomestay = 100 - goodHomestay - badHomestay;
+
+        new Chart(document.getElementById("userChart"), {
+          type: "pie",
+          data: {
+            labels: ["Người dùng mới", "Người dùng tiềm năng", "Người dùng quay lại"],
+            datasets: [{
+              data: [newUser, potentialUser, returningUser],
+              backgroundColor: ["#ff6384", "#ffcd56", "#36a2eb"]
+            }]
+          }
+        });
+
+        new Chart(document.getElementById("roomChart"), {
+          type: "pie",
+          data: {
+            labels: ["Phòng đã đặt", "Phòng trống"],
+            datasets: [{
+              data: [occupiedRoom, availableRoom],
+              backgroundColor: ["#36a2eb", "#ffcd56"]
+            }]
+          }
+        });
+
+        new Chart(document.getElementById("homestayChart"), {
+          type: "pie",
+          data: {
+            labels: ["Homestay tốt", "Homestay chưa tốt", "Khác"],
+            datasets: [{
+              data: [goodHomestay, badHomestay, otherHomestay],
+              backgroundColor: ["#4bc0c0", "#ff6384", "#c9cbcf"]
+            }]
+          }
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", renderCharts);
+
+      function logout() {
+        window.location.href = "dangnhap.html";
+      }
+    </script>
+  </body>
+</html>

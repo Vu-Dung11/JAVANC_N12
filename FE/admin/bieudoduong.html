@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin GoatBooking - Biểu đồ đường</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+      }
+      .sidebar {
+        height: 100vh;
+        background-color: #343a40;
+        color: #fff;
+        position: fixed;
+        width: 250px;
+        overflow-y: auto;
+      }
+      .sidebar a,
+      .sidebar h2 {
+        color: #fff;
+        text-decoration: none;
+      }
+      .sidebar a:hover {
+        background-color: #495057;
+      }
+      .sidebar .submenu {
+        list-style: none;
+        padding-left: 20px;
+        display: none;
+      }
+      .sidebar .submenu .nav-link {
+        font-size: 14px;
+        padding: 5px 20px;
+        color: #adb5bd;
+      }
+      .nav-item .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav-item.open .submenu {
+        display: block;
+      }
+      .content {
+        margin-left: 250px;
+        padding: 20px;
+        height: 100vh;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <h2 class="text-center mb-4" style="font-size: 40px">Admin <br />GoatBooking</h2>
+      <img src="a1.jpg" alt="Profile" class="rounded-circle mx-auto d-block mb-4" width="100" />
+      <p class="text-center">GoatBooking</p>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="toggleMenu(this)"><i class="fas fa-tachometer-alt"></i> Trang chủ <i class="fas fa-chevron-down"></i></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="homestay.html">◯ Homestay</a></li>
+            <li><a class="nav-link" href="room.html">◯ Room</a></li>
+            <li><a class="nav-link" href="user.html">◯ User</a></li>
+            <li><a class="nav-link" href="service.html">◯ Service</a></li>
+            <li><a class="nav-link" href="review.html">◯ Review</a></li>
+            <li><a class="nav-link" href="booking_admin.html">◯ Booking</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="tienich.html"><i class="fas fa-th"></i> Tiện ích <span class="badge badge-danger">New</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="toggleMenu(this)"><i class="fas fa-chart-bar"></i> Thống kê <i class="fas fa-chevron-down"></i></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="thongke_3.html">◯ User-Homestay-Rooms</a></li>
+            <li><a class="nav-link" href="thongke_2.html">◯ Review - Service</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="toggleMenu(this)"><i class="fas fa-chart-pie"></i> Biểu đồ <i class="fas fa-chevron-down"></i></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="bieudotron.html">◯ Biểu đồ tròn</a></li>
+            <li><a class="nav-link" href="bieudoduong.html">◯ Biểu đồ đường</a></li>
+            <li><a class="nav-link" href="bieudocot.html">◯ Biểu đồ cột</a></li>
+            <li><a class="nav-link" href="bieudovung.html">◯ Biểu đồ vùng</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link">Xem thêm</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="lich.html"><i class="fas fa-calendar-alt"></i> Lịch <span class="badge badge-info">2</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="bosuutap.html"><i class="fas fa-image"></i>Bộ sưu tập<span class="badge badge-info">99+</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="toggleMenu(this)"><i class="fas fa-tools"></i>Hỗ trợ<i class="fas fa-chevron-down"></i></a>
+          <ul class="submenu">
+            <li><a class="nav-link" href="chat.html">◯ Chat</a></li>
+            <li><a class="nav-link" href="email.html">◯ Mailbox</a></li>
+            <li><a class="nav-link" href="faq.html">◯ FAQ</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="datlai.html"><i class="fas fa-sync-alt"></i>Đặt lại</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fa fa-user-circle"></i> Tài khoản</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Đăng xuất</a>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1 class="text-center">Thống kê bằng biểu đồ đường</h1>
+      <canvas id="lineChart" height="100"></canvas>
+    </div>
+
+    <script>
+      function toggleMenu(element) {
+        const parent = element.closest(".nav-item");
+        parent.classList.toggle("open");
+      }
+
+      async function fetchData(url) {
+        try {
+          const res = await fetch(url);
+          return res.ok ? await res.json() : [];
+        } catch (e) {
+          console.error("Fetch error:", e);
+          return [];
+        }
+      }
+
+      async function renderLineChart() {
+        const data = await fetchData("http://localhost:8080/api/bookings/monthly-revenue");
+
+        const labels = data.map(item => item.month);
+        const revenues = data.map(item => item.totalRevenue);
+
+        new Chart(document.getElementById("lineChart"), {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [{
+              label: "Doanh thu theo tháng",
+              data: revenues,
+              borderColor: "#007bff",
+              backgroundColor: "rgba(0, 123, 255, 0.2)",
+              fill: true,
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", renderLineChart);
+
+      function logout() {
+        window.location.href = "dangnhap.html";
+      }
+    </script>
+  </body>
+</html>
