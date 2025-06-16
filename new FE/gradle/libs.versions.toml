@@ -1,0 +1,50 @@
+[versions]
+agp = "8.6.0"
+design = "28.0.0"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+material = "1.12.0"
+activity = "1.9.3"
+constraintlayout = "2.2.0"
+lifecycleLivedataKtx = "2.8.7"
+lifecycleViewmodelKtx = "2.8.7"
+lifecycleRuntimeKtx = "2.8.7" # Thêm cho lifecycle-runtime-ktx
+navigationFragment = "2.6.0"
+navigationUi = "2.6.0"
+retrofit = "2.9.0" # Thêm cho Retrofit
+gson = "2.8.9" # Thêm cho Gson
+okhttp = "4.9.3" # Thêm cho OkHttp
+coroutines = "1.7.3" # Thêm cho Kotlin Coroutines
+room = "2.6.1" # Thêm cho Room
+glide = "4.16.0" # Thêm cho Glide
+
+[libraries]
+design = { module = "com.android.support:design", version.ref = "design" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" } # Thêm
+navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
+navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" } # Thêm
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" } # Thêm
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" } # Thêm
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" } # Thêm
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" } # Thêm
+coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" } # Thêm
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" } # Thêm
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" } # Thêm
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" } # Thêm
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" } # Thêm
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" } # Thêm
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }

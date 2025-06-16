@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Trang chủ"
+        android:id="@+id/home2"
+        android:icon="@drawable/house"
+        />
+    <item
+        android:title="Hot Homestay"
+        android:id="@+id/love"
+        android:icon="@drawable/mode_heat_24dp_e3e3e3_fill0_wght400_grad0_opsz24"
+        />
+    <item
+        android:title="Đặt chỗ của tôi"
+        android:id="@+id/booking"
+        android:icon="@drawable/calendar_month_24dp_e3e3e3_fill0_wght400_grad0_opsz24"
+        />
+    <item
+        android:title="Tài khoản"
+        android:id="@+id/profile"
+        android:icon="@drawable/user"
+        />
+</menu>
